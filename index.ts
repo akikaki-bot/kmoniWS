@@ -2,10 +2,25 @@ import { WebSocketServer } from "ws";
 import EEW from "./connection/eew";
 import Hello from "./connection/hello";
 import { Kmoni } from "./kmoni";
+import * as http from "http"
+
+const app = http.createServer(
+    (req,res) => {                 
+            res.writeHead(200, "OK");
+            res.write('OKdayo!');
+            res.end()
+        }
+    )
+app.listen(3000)
 
 export const kmoni = new Kmoni()
 
-const wss = new WebSocketServer({port : 3000})
+const wss = new WebSocketServer(
+    {
+    server : app,
+    path : "/kmoni"
+   }
+)
 
 wss.on('listening', () => {
     console.log(` YDITS Re:Send API - version 1.0.0 Ready!`)

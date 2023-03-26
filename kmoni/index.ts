@@ -13,18 +13,17 @@ export class Kmoni extends EventEmitter {
 
     check () {
         let _id = ""
-        let _eewId = ""
        setInterval(async () => {
 
         const date = `${new Date().getFullYear()}${format(new Date().getMonth() + 1)}${format(Number(new Date().getDate().toString().slice(-2)))}${format(new Date().getHours())}${format(new Date().getMinutes())}${format(new Date().getSeconds())}`
         
-        const _debug = "20220316233600"
+       // const _debug = "20220316233600"
        
         const rawdata = (await axios.get(`http://www.kmoni.bosai.go.jp/webservice/hypo/eew/${date}.json`)).data
         const data = JSON.parse(JSON.stringify(rawdata)) as RawKmoni
         if(data?.result.message === "") {
           if(!_id || _id !== data.report_id) {
-             this.emit("oneew", new KmoniFormat(data))
+             this.emit("oneew", new KmoniFormat(data) as KyoshinMonitorJSON)
              _id = data.report_id
            }
         }

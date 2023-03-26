@@ -1,7 +1,9 @@
 import { WebSocketServer } from "ws";
 import EEW from "./connection/eew";
+import EEWarningDetail from "./eew/index"
 import Hello from "./connection/hello";
 import { Kmoni } from "./kmoni";
+import { P2PWSClient } from "p2peq_event"
 import * as http from "http"
 
 const app = http.createServer(
@@ -12,6 +14,8 @@ const app = http.createServer(
         }
     )
 app.listen(3000)
+
+export const client = new P2PWSClient()
 
 export const kmoni = new Kmoni()
 
@@ -28,9 +32,13 @@ wss.on('listening', () => {
 
 wss.on('connection', (ws) => {
 
-   console.log(`[JOIN] - Hello!`)
+    console.log(`[JOIN] - Hello!`)
    // 初期接続時の応答 
     Hello(ws)
+
+    client.on('eew', () => {
+        EEWarningDetail(ws)
+    })
 
     kmoni.on('oneew', () => {
         EEW(ws)

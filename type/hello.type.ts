@@ -1,5 +1,5 @@
 
 export type MessageDefault = {
-   code : "Hello"
+   code : string
    message : string
 }

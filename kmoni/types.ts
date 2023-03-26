@@ -1,5 +1,3 @@
-import { Kmoni } from "."
-
 
 export type KyoshinMonitorJSON = {
     IseewAttached : boolean
@@ -29,6 +27,7 @@ export type Intensities = {
 }
 
 export class KmoniFormat {
+    public code : "KmoniEEW"
     public IseewAttached : boolean
     public request : KmoniRequests = {
         report_time : "",
